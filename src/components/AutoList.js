@@ -1,82 +1,75 @@
-import React, { useEffect } from 'react';
-import { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import UtenteService from "../service/UtenteService"
-import {Link} from "react-router-dom"
-import {useLocation} from 'react-router-dom';
-
-import {useNavigate} from 'react-router-dom';
+import { Link, useLocation } from "react-router-dom";
 import AutoService from "../service/AutoService";
 
-const AutoList = () => {
+const AutoList = ({ keycloak }) => {
+
   const location = useLocation();
-  console.log("stampa dell utente ", location.state)
   const [autoList, setAutoList] = useState([]);
-
-//  const history = useNavigate(`/utente/get/${employees.id}`,location.state)
-
-  //const login = () => keycloak.login();
-  //const logout = () => keycloak.logout();
+  const isAdmin = keycloak && keycloak.hasRealmRole('ADMIN');
+    console.log('stampa ruolo', keycloak);
 
 
-
-  useEffect(() => {
-    AutoService.getAll()
-      .then(response => {
-        console.log('print ', response.data);
-        setAutoList(response.data);
-      })
-      .catch(error => {
-        console.log('errore auto', error);
-      })
-  }, [])
+    useEffect(() => {
+    // Carichiamo i dati solo se l'utente è admin (per risparmiare chiamate inutili)
+    if (isAdmin) {
+      AutoService.getAll()
+          .then(response => {
+            setAutoList(response.data);
+          })
+          .catch(error => {
+            console.log('errore auto', error);
+          });
+    }
+  }, [isAdmin]); // Riesegui se il ruolo cambia
 
   return (
-    <>
-
       <div className="container">
-        <h3>lista auto</h3>
-        <h2>Utente </h2>
-        <hr></hr>
-        <div>
-        <Link to="/login" className="btn btn-primary mb-2"> login</Link>
-          <Link to="/registrazione" className="btn btn-success mb-2 ml-5  float-right"> logout</Link>
+        <h3>Pagina Home</h3>
+        <hr />
 
-          <table border='1' cellPadding="10" 
-          className="table table-bordered table-striped">
-            <thead className="thead-dark">
-              <tr>
-                <th>marca</th>
-                <th>nome</th>
-                <th>seriale</th>
-                <th>azioni</th>
-              </tr>
-            </thead>
-            <tbody>
-                {
-                  autoList.map(autoList => (
+        <div className="mb-3">
+          <Link to="/login" className="btn btn-primary">Login</Link>
+          <button onClick={() => keycloak.logout()} className="btn btn-danger ms-2">Logout</button>
+        </div>
 
-                    <tr key={autoList.id}>
-                      <td>{autoList.marca}</td>
-                      <td>{autoList.nome}</td>
-                      <td>{autoList.seriale}</td>
+        {/* RENDER CONDIZIONALE */}
+        {isAdmin ? (
+            <div>
+              <h2>Lista Auto (Riservato Admin)</h2>
+              <table className="table table-bordered table-striped">
+                <thead className="thead-dark">
+                <tr>
+                  <th>Marca</th>
+                  <th>Nome</th>
+                  <th>Seriale</th>
+                  <th>Azioni</th>
+                </tr>
+                </thead>
+                <tbody>
+                {autoList.map(auto => (
+                    <tr key={auto.id}>
+                      <td>{auto.marca}</td>
+                      <td>{auto.nome}</td>
+                      <td>{auto.seriale}</td>
                       <td>
-                        <Link className='btn btn-info'     state={location.state}   to={`/utente/get/${autoList.id}`} > affitta</Link>
+                        <Link className='btn btn-info' state={location.state} to={`/utente/get/${auto.id}`}>
+                          Affitta
+                        </Link>
                       </td>
                     </tr>
-                  ))
-                }
-            </tbody>
-          </table>
-        </div>
+                ))}
+                </tbody>
+              </table>
+            </div>
+        ) : (
+            <div className="alert alert-warning">
+              <strong>Attenzione:</strong> Non hai i permessi di Amministratore per visualizzare la lista delle auto.
+            </div>
+        )}
       </div>
-
-    </>
   );
 }
+
 export default AutoList;
-
-
-
-
-

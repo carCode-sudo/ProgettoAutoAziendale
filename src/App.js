@@ -14,38 +14,35 @@ import Affitta from "./components/Affitta";
 import {useKeycloak} from "@react-keycloak/web";
 
 function App() {
+    const { keycloak, initialized } = useKeycloak();
+    if (!initialized) return <div>Loading...</div>;
 
 
-  const { keycloak, initialized } = useKeycloak();
-  //if (!initialized) return <div>Loading...</div>;
+    return (
+        <BrowserRouter>
+            <nav style={{ padding: "10px", borderBottom: "1px solid #ccc" }}>
+                {keycloak.authenticated ? (
+                    <>
+                        <span>Benvenuto {keycloak.tokenParsed?.preferred_username} </span>
+                        <button onClick={() => keycloak.logout()}>Logout</button>
+                    </>
+                ) : (
+                    <button onClick={() => keycloak.login()}>Login</button>
+                )}
+            </nav>
 
+            <div>
+                <Routes>
+                    {/* PASSA KEYCLOAK QUI */}
+                    <Route exact path="/" element={<AutoList keycloak={keycloak} />} />
 
-  return (
-    <BrowserRouter>
-      <nav style={{ padding: "10px", borderBottom: "1px solid #ccc" }}>
-        {keycloak.authenticated ? (
-            <>
-              <span>Benvenuto {keycloak.tokenParsed?.preferred_username}</span>
-                {console.log(keycloak.tokenParsed)}
-              <button onClick={() => keycloak.logout()}>Logout</button>
-            </>
-        ) : (
-            <button onClick={() => keycloak.login()}>Login</button>
-        )}
-      </nav>
-
-      <div>
-        <Routes>
-          <Route exact path="/" element={<AutoList  />} />
-          <Route exact path="/login" element={<VerificaUtente  />} />
-            <Route exact path="/registrazione" element={<Registrazione/>} />
-
-            <Route exact path="/registrazione" element={<Registrazione/>} />
-          <Route exact path="/utente/get/:id" element={<Affitta/>} />
-          <Route exact path="*" element={<NotFound />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
-  );
+                    <Route exact path="/login" element={<VerificaUtente />} />
+                    <Route exact path="/registrazione" element={<Registrazione/>} />
+                    <Route exact path="/utente/get/:id" element={<Affitta/>} />
+                    <Route exact path="*" element={<NotFound />} />
+                </Routes>
+            </div>
+        </BrowserRouter>
+    );
 }
 export default App ;

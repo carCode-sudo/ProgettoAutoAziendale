@@ -2,19 +2,24 @@ import axios from "axios";
 import { useKeycloak } from "@react-keycloak/web";
 
 const api = axios.create({
-    baseURL: "http://localhost:8080" // backend
+    baseURL: 'http://localhost:8080/api'
 });
 
-// aggiunge automaticamente il token ad ogni richiesta
-export const useApi = () => {
-    const { keycloak } = useKeycloak();
-
-    api.interceptors.request.use(config => {
-        if (keycloak && keycloak.authenticated) {
-            config.headers.Authorization = `Bearer ${keycloak.token}`;
+// Intercettore per aggiungere il token a ogni richiesta
+api.interceptors.request.use(
+    async (config) => {
+        try {
+            // Sostituisci 'window.keycloak' con il modo in cui accedi alla tua istanza
+            await window.keycloak.updateToken(5);
+            config.headers.Authorization = `Bearer ${window.keycloak.token}`;
+        } catch (error) {
+            console.error("Token refresh failed", error);
         }
         return config;
-    });
+    },
+    (error) => {
+        return Promise.reject(error);
+    }
+);
 
-    return api;
-};
+export default api;
