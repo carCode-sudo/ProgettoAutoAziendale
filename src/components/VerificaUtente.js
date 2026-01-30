@@ -24,16 +24,13 @@ const VerificaUtente = () => {
         toast.current.show({ severity: 'error', summary: 'ERRORE', detail: 'errore utente gia registrato', life: 3000 });
     }
     const verifica = (e) => {
-
         e.preventDefault();
-
         const utente = { nome, codiceFiscale };
             UtenteService.verifica(utente)
                 .then(response => {
                     console.log('rispostaa5', response.status);
                     showSuccess()
                         console.log("stampa utente " ,utente)
-                  
                      navigate('/' , {state:utente});
                 })
                 .catch(error => {

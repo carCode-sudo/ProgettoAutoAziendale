@@ -14,17 +14,13 @@ const update = (data) =>{
 return httpClient.patch('/utente/update',data);
 
 }
-
 const verifica = (data) =>{
 
   return httpClient.post('/utente/verificaUtente',data);
 }
-
 const prenotazione = (auto,utente) =>{
 
   return httpClient.put('/prenotazione/inserimento',auto,utente);
 }
-
-
 
 export default { prenotazione, getUtente, update , addUtente,verifica};

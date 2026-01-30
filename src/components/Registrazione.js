@@ -19,48 +19,30 @@ const AddUtente = () => {
     const { id } = useParams();
     const toast = useRef();
 
-
-    
-
     const showSuccess = () => {
         toast.current.show({ severity: 'success', summary: 'UTENTE ESEGUITO', detail: 'Utente registrato', life: 3000 });
     }
-
     const showWarn = () => {
         toast.current.show({ severity: 'error', summary: 'ERRORE', detail: 'errore utente gia registrato', life: 3000 });
     }
-
-
-
-
     const saveUtente = (e) => {
-
-
-
-
         e.preventDefault();
 
         const utente = { nome, cognome, codiceFiscale, id };
 
         if (id) {
-
             UtenteService.update(utente)
                 .then(response => {
                     console.log('utente aggiontato con successo', response.data)
 
                     // navigate('/');
                 })
-
         }
         else {
             UtenteService.addUtente(utente)
-
                 .then(response => {
                     console.log('utente aggiunto con successo', response.data);
-
                     showSuccess();
-
-                  
                     // navigate("/");
 
                 })
@@ -72,9 +54,7 @@ const AddUtente = () => {
         }
     }
 
-
     useEffect(() => {
-
         if (id) {
            // console.log('verifica dellid',id)
             UtenteService.get(id)
@@ -83,17 +63,12 @@ const AddUtente = () => {
                     setCognome(utente.data.cognome);
                     setCodiceFiscale(utente.data.codiceFiscale);
                     console.log('urente preso', utente);
-
                 })
                 .catch(error => {
                     console.log('errore ', error);
                 });
         }
     }, [])
-
-
-
-
 
     return (
         <>
@@ -132,16 +107,10 @@ const AddUtente = () => {
                             onChange={(e) => setCodiceFiscale(e.target.value)}
                             placeholder="codice fiscale" />
                     </div>
-
-
-
-
                 </div>
                 <div>
 
                     <button className="btn btn-primary" onClick={(e) => saveUtente(e)   } >salva</button>
-
-
         </div>
             </form >
 

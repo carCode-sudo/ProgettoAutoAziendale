@@ -9,15 +9,16 @@ import {useNavigate} from 'react-router-dom';
 import AutoService from "../service/AutoService";
 
 const AutoList = () => {
-
-  
   const location = useLocation();
-
   console.log("stampa dell utente ", location.state)
-
   const [autoList, setAutoList] = useState([]);
 
 //  const history = useNavigate(`/utente/get/${employees.id}`,location.state)
+
+  //const login = () => keycloak.login();
+  //const logout = () => keycloak.logout();
+
+
 
   useEffect(() => {
     AutoService.getAll()
@@ -30,17 +31,17 @@ const AutoList = () => {
       })
   }, [])
 
-
-
   return (
     <>
 
       <div className="container">
         <h3>lista auto</h3>
+        <h2>Utente </h2>
         <hr></hr>
         <div>
         <Link to="/login" className="btn btn-primary mb-2"> login</Link>
-        <Link to="/registrazione" className="btn btn-success mb-2 ml-5  float-right"> registrazione</Link>
+          <Link to="/registrazione" className="btn btn-success mb-2 ml-5  float-right"> logout</Link>
+
           <table border='1' cellPadding="10" 
           className="table table-bordered table-striped">
             <thead className="thead-dark">
