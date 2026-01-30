@@ -12,9 +12,8 @@ const AutoList = ({ keycloak }) => {
 
 
     useEffect(() => {
-    // Carichiamo i dati solo se l'utente è admin (per risparmiare chiamate inutili)
     if (isAdmin) {
-      AutoService.getAll()
+      AutoService.getAll(keycloak)
           .then(response => {
             setAutoList(response.data);
           })
