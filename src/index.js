@@ -7,6 +7,8 @@ import reportWebVitals from './reportWebVitals';
 import {ReactKeycloakProvider} from "@react-keycloak/web";
 import keycloak from "./auth/Keycloak";
 
+
+
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
     <ReactKeycloakProvider authClient={keycloak}>
