@@ -33,7 +33,7 @@ function App() {
                     </>
                 ) : (
                     <button onClick={() => keycloak.login({
-                        redirectUri: window.location.origin + '/AutoList'})
+                        redirectUri: window.location.origin + '/AutoListNew'})
                     }>Login</button>
                 )}
             </nav>

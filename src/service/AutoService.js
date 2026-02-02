@@ -8,14 +8,14 @@ const getAll =keycloak => {
         }});
 }
 const getAuto = (id,keycloak) =>{
-    return  httpClient.get('/auto/get/${id}', {
+    return  httpClient.get(`/auto/get/${id}`, {
         headers : {
             'Authorization': `Bearer ${keycloak.token}`
         }});
 }
 
 const getById = (id,keycloak) =>{
-    return  httpClient.get('/auto/get/${id}', {
+    return  httpClient.get(`/auto/get/${id}`, {
         headers : {
             'Authorization': `Bearer ${keycloak.token}`
         }});

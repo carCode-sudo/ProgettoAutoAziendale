@@ -9,7 +9,7 @@ const Home = () => {
 
     useEffect(() => {
         if (initialized && keycloak.authenticated) {
-            navigate('/AutoList');
+            navigate('/AutoListNew');
         }
     }, [initialized, keycloak.authenticated, navigate]);
 
