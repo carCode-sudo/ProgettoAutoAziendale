@@ -11,6 +11,7 @@
     "add": "^2.0.6",
     "axios": "^0.27.2",
     "bootstrap": "^4.6.2",
+    "framer-motion": "^12.29.3",
     "keycloak-js": "^26.2.2",
     "moment": "^2.29.4",
     "primeflex": "^3.2.1",

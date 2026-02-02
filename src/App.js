@@ -4,6 +4,7 @@ import {
   Route,Routes,
   Link
 } from "react-router-dom";
+import Home from "./components/Home";
 
 import AutoList from "./components/AutoList";
 import NotFound from "./components/NotFound";
@@ -12,6 +13,7 @@ import Registrazione from "./components/Registrazione";
 import VerificaUtente from "./components/VerificaUtente";
 import Affitta from "./components/Affitta";
 import {useKeycloak} from "@react-keycloak/web";
+import AutoListNew from "./components/AutoListNew";
 
 function App() {
     const { keycloak, initialized } = useKeycloak();
@@ -24,18 +26,26 @@ function App() {
                 {keycloak.authenticated ? (
                     <>
                         <span>Benvenuto {keycloak.tokenParsed?.preferred_username} </span>
-                        <button onClick={() => keycloak.logout()}>Logout</button>
+                        <button onClick={() => keycloak.logout({
+                            redirectUri: window.location.origin + '/'})
+                        }>Logout</button>
                     </>
                 ) : (
-                    <button onClick={() => keycloak.login()}>Login</button>
+                    <button onClick={() => keycloak.login({
+                        redirectUri: window.location.origin + '/AutoList'})
+                    }>Login</button>
                 )}
             </nav>
 
             <div>
                 <Routes>
                     {/* PASSA KEYCLOAK QUI */}
-                    <Route exact path="/" element={<AutoList keycloak={keycloak} />} />
 
+
+                    <Route exact path="/AutoList" element={<AutoList keycloak={keycloak} /> } />
+                    <Route exact path="/AutoListNew" element={<AutoListNew keycloak={keycloak} /> } />
+
+                    <Route exact path="/" element={<Home keycloak={keycloak} />} />
                     <Route exact path="/login" element={<VerificaUtente />} />
                     <Route exact path="/registrazione" element={<Registrazione/>} />
                     <Route exact path="/utente/get/:id" element={<Affitta/>} />
