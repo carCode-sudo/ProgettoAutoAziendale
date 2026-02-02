@@ -11,7 +11,7 @@ const AutoList = ({ keycloak }) => {
     useEffect(() => {
         if (isAdmin) {
             AutoService.getAll(keycloak)
-                .then(res => setAutoList(res.data))
+                .then(res => setAutoList(res.data), console.log(keycloak.token))
                 .catch(err => console.log(err));
         }
     }, [isAdmin, keycloak]);
@@ -106,7 +106,7 @@ const AutoList = ({ keycloak }) => {
                                             <span className="badge bg-light text-dark border">{auto.seriale}</span>
                                         </td>
                                         <td className="p-3 text-center">
-                                            <Link to={`/utente/get/${auto.id}`} className="btn btn-primary btn-sm rounded-pill px-4">
+                                            <Link to={`/auto/get/${auto.id}`} className="btn btn-primary btn-sm rounded-pill px-4">
                                                 Dettagli
                                             </Link>
                                         </td>

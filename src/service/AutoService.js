@@ -7,11 +7,21 @@ const getAll =keycloak => {
             'Authorization': `Bearer ${keycloak.token}`
         }});
 }
-const getAuto = id =>{
-    return  httpClient.get(`/auto/get/${id}`);
+const getAuto = (id,keycloak) =>{
+    return  httpClient.get('/auto/get/${id}', {
+        headers : {
+            'Authorization': `Bearer ${keycloak.token}`
+        }});
+}
+
+const getById = (id,keycloak) =>{
+    return  httpClient.get('/auto/get/${id}', {
+        headers : {
+            'Authorization': `Bearer ${keycloak.token}`
+        }});
 }
 
 
 
 
-export default {getAll, getAuto };
+export default {getAll, getAuto , getById};

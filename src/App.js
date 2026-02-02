@@ -14,6 +14,7 @@ import VerificaUtente from "./components/VerificaUtente";
 import Affitta from "./components/Affitta";
 import {useKeycloak} from "@react-keycloak/web";
 import AutoListNew from "./components/AutoListNew";
+import Product from "./components/Product";
 
 function App() {
     const { keycloak, initialized } = useKeycloak();
@@ -48,7 +49,7 @@ function App() {
                     <Route exact path="/" element={<Home keycloak={keycloak} />} />
                     <Route exact path="/login" element={<VerificaUtente />} />
                     <Route exact path="/registrazione" element={<Registrazione/>} />
-                    <Route exact path="/utente/get/:id" element={<Affitta/>} />
+                    <Route exact path="/auto/get/:id" element={<Product/>} />
                     <Route exact path="*" element={<NotFound />} />
                 </Routes>
             </div>
