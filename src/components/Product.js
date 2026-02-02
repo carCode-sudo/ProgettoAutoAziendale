@@ -37,7 +37,7 @@ const Product = () => {
         };
 
         try {
-            await axios.post('http://localhost:8080/api/prenotazioni/crea', prenotazione, {
+            await axios.post('http://localhost:8080/prenotazione/crea', prenotazione, {
                 headers: { Authorization: `Bearer ${keycloak.token}` }
             });
             toast.success("Prenotazione effettuata con successo!");
